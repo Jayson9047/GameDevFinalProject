@@ -11,9 +11,14 @@ public class EnemyAnimationController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Walking()
     {
-        animator.SetBool("isWalking", true);
+        if (animator != null)
+        {
+            // Set action animaiton bool to true
+            animator.SetBool("isWalking", true);
+
+            // Set other animation bools false
+        }
     }
 }
