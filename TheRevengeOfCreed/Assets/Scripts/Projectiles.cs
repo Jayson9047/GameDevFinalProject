@@ -20,15 +20,18 @@ public class Projectiles : MonoBehaviour
         bulletRigid.velocity = transform.forward * speed;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
+        //Debug.Log(other.gameObject.name);
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            //hit
+        }
+        else
+        {
+
+        }
         Destroy(gameObject);
     }
 }
