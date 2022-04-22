@@ -156,4 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b523b6631737f140ae06a308b5fd1fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
+  speed: 50
+  vfxHitRegular: {fileID: 414157376002894239, guid: 70fab652b3012104daaea5150d6ffa28, type: 3}
+  vfxHitGreen: {fileID: 3602720951758348848, guid: d59e5e6a3fa3a8a4493f1936d5a99532, type: 3}
