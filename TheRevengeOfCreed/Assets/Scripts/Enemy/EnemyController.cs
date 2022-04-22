@@ -13,39 +13,26 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         _animation = GetComponent<EnemyAnimationController>();
+        _patrol = GetComponent<PatrolController>();
         initialPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _animation.Walking();
-
-        if (DetectPlayer() == true)
+        if (_patrol.patrolState == PatrolState.Walking)
         {
-            Debug.Log("I see player");
+            _animation.Walking();
+        }
+
+        if (_patrol.patrolState == PatrolState.Following)
+        {
+           
+            _animation.Running();
         }
 
     }
 
-    bool DetectPlayer()
-    {
-        bool detected = false;
-        Vector3 rayPosition = transform.position;
-        rayPosition.y = 1;
-        var ray = new Ray(rayPosition, this.transform.forward);
-        RaycastHit hit;
 
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.transform.gameObject.tag == "Player")
-            {
-                detected = true;
-            }
-        }
-
-        return detected;
-    }
 
 }

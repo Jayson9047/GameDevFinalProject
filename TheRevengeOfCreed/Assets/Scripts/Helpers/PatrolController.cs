@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PatrolState { Turning, Walking, Idle }
+public enum PatrolState { Turning, Walking, Idle, Following}
 public class PatrolController : MonoBehaviour
 {
     
@@ -12,6 +12,8 @@ public class PatrolController : MonoBehaviour
     public bool isPatrolling = false;
     public float RotationSpeed;
     public PatrolState patrolState = PatrolState.Idle;
+
+    public float distance = 8f;
     //values for internal use
     private Quaternion _lookRotation;
     private Vector3 _direction;
@@ -29,6 +31,54 @@ public class PatrolController : MonoBehaviour
         {
             Patrol();
         }
+
+        if (DetectPlayer() == true)
+        {
+            // Follow Player
+           
+            isPatrolling = false;
+
+        }
+    }
+
+    
+    void MoveToPlayer(Transform target)
+    {
+        RotateToPosition(target);
+        var _distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+
+        // Move to shooting range
+        if (_distanceToTarget > distance)
+        {
+            Vector3.Distance(transform.position, target.position);
+            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * 2 * Time.deltaTime);
+            patrolState = PatrolState.Following;
+        } else
+        {
+            //patrolState = PatrolState.Idle;
+        }
+
+    }
+    bool DetectPlayer()
+    {
+        bool detected = false;
+        var rayPosition = new Vector3(transform.position.x, 1, transform.position.z) ;
+     
+        var ray = new Ray(rayPosition, _direction);
+        RaycastHit hit;
+
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.tag == "Player")
+            {
+                detected = true;
+                MoveToPlayer(hit.transform);
+            }
+        }
+
+        return detected;
     }
 
     void Patrol()

@@ -15,10 +15,27 @@ public class EnemyAnimationController : MonoBehaviour
     {
         if (animator != null)
         {
+            // Set other animation bools false
+            animator.SetBool("isRunning", false);
+
             // Set action animaiton bool to true
             animator.SetBool("isWalking", true);
 
+
+        }
+    }
+
+    public void Running()
+    {
+        if (animator != null)
+        {
             // Set other animation bools false
+            animator.SetBool("isWalking", false);
+
+            // Set action animaiton bool to true
+            animator.SetBool("isRunning", true);
+
+
         }
     }
 }
