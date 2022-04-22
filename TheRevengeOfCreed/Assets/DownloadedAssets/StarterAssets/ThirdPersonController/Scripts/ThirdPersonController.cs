@@ -284,6 +284,8 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
+
+            //Debug.Log(_speed);
         }
 
         private void JumpAndGravity()
@@ -403,6 +405,11 @@ namespace StarterAssets
         public void SetOnMoveRotate(bool newOnMoveRotate)
         {
             _onMoveRotate = newOnMoveRotate;
+        }
+
+        public int GetSpeed()
+        {
+            return (int)_speed;
         }
 
     }

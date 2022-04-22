@@ -153,6 +153,7 @@ MonoBehaviour:
   SprintSpeed: 12
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
+  Sensitivity: 1
   LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
   FootstepAudioClips:
   - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
@@ -214,6 +215,8 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  aim: 0
+  shoot: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -328,6 +331,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimCamera: {fileID: 2287300553060999604, guid: 2965ef3125357b343a5cf28a6cdbacf2, type: 3}
+  regularSensitivity: 0
+  aimSensitivity: 0
+  aimColliderMask:
+    serializedVersion: 2
+    m_Bits: 0
+  debugTransform: {fileID: 0}
+  projectliePrefabTransform: {fileID: 0}
+  bulletSpawnTransform: {fileID: 0}
+  vfxHitRegular: {fileID: 414157376002894239, guid: 70fab652b3012104daaea5150d6ffa28, type: 3}
+  vfxHitGreen: {fileID: 3602720951758348848, guid: d59e5e6a3fa3a8a4493f1936d5a99532, type: 3}
 --- !u!1001 &5977377893816621000
 PrefabInstance:
   m_ObjectHideFlags: 0

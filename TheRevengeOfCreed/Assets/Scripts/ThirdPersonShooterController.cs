@@ -19,11 +19,13 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController tpController;
+    private Animator animator;
 
     private void Awake()
     {
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         tpController = GetComponent<ThirdPersonController>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -81,18 +83,47 @@ public class ThirdPersonShooterController : MonoBehaviour
             tpController.SetSensitivity(aimSensitivity);
             tpController.SetOnMoveRotate(false);
 
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
             Vector3 worldAimTarget = mousePositionInWorld;
             worldAimTarget.y = transform.position.y;
             Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
 
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
+
+            int mySpeed = Mathf.RoundToInt(animator.GetFloat("Speed"));
+            
+            //Debug.Log(tpController.GetSpeed());
+            if (mySpeed > 0 && mySpeed < 7)
+            {
+                Debug.Log(mySpeed);
+                
+                animator.SetBool("pistolWalking", true);
+                animator.SetBool("pistolRunning", false);
+                
+            }
+            else if (mySpeed > 6)
+            {
+                Debug.Log("Running");
+                animator.SetBool("pistolWalking", false);
+                animator.SetBool("pistolRunning", true);
+            }
+            else
+            {
+                Debug.Log("Aiming but not moving");
+                animator.SetBool("pistolWalking", false);
+                animator.SetBool("pistolRunning", false);
+            }
             
         }
         else
         {
+            Debug.Log("Not Moving, not aiming");
+            animator.SetBool("pistolWalking", false);
+            animator.SetBool("pistolRunning", false);
             aimCamera.gameObject.SetActive(false);
             tpController.SetSensitivity(regularSensitivity);
             tpController.SetOnMoveRotate(true);
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
     }
 
