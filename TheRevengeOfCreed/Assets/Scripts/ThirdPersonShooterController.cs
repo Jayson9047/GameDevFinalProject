@@ -45,7 +45,9 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             Vector3 aimDir = (mouseWorldPosition - bulletSpawnTransform.position).normalized;
             Instantiate(projectliePrefabTransform, bulletSpawnTransform.position, Quaternion.LookRotation(aimDir,Vector3.up));
+            
             starterAssetsInputs.shoot = false;
+            CameraShake.Instance.ShakeCamera(2.5f, 0.1f);
         }
     }
 
