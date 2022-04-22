@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PatrolState { Turning, Walking, Idle, Following}
+public enum PatrolState { Turning, Walking, Idle, Following, Attacking}
 public class PatrolController : MonoBehaviour
 {
     
@@ -56,7 +56,7 @@ public class PatrolController : MonoBehaviour
             patrolState = PatrolState.Following;
         } else
         {
-            //patrolState = PatrolState.Idle;
+            patrolState = PatrolState.Attacking;
         }
 
     }

@@ -38,4 +38,20 @@ public class EnemyAnimationController : MonoBehaviour
 
         }
     }
+
+    public void Firing()
+    {
+        if (animator != null)
+        {
+            // Set other animation bools false
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+
+            // Set action animaiton bool to true
+            animator.SetBool("isFiring", true);
+
+
+
+        }
+    }
 }

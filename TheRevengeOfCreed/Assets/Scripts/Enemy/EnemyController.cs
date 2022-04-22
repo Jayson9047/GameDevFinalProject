@@ -31,6 +31,11 @@ public class EnemyController : MonoBehaviour
             _animation.Running();
         }
 
+        if (_patrol.patrolState == PatrolState.Attacking)
+        {
+            _animation.Firing();
+        }
+
     }
 
 
