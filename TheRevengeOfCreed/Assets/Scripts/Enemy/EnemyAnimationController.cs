@@ -54,4 +54,22 @@ public class EnemyAnimationController : MonoBehaviour
 
         }
     }
+
+    public void Dying()
+    {
+        if (animator != null)
+        {
+            // Set other animation bools false
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isFiring", false);
+            // Set action animaiton bool to true
+            animator.SetBool("isDying", true);
+
+
+
+
+        }
+    }
+
 }

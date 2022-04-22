@@ -2986,7 +2986,7 @@ GameObject:
   - component: {fileID: 5970999819926205529}
   - component: {fileID: 5970999819926205534}
   m_Layer: 0
-  m_Name: enemy@T-Pose
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
