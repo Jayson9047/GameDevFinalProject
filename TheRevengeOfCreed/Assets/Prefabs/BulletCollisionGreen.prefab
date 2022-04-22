@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3602720951758348848}
   - component: {fileID: 3602720951758348849}
   - component: {fileID: 3602720951758348850}
+  - component: {fileID: 4061676961903758035}
   m_Layer: 0
   m_Name: BulletCollisionGreen
   m_TagString: Untagged
@@ -4864,6 +4865,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &4061676961903758035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3602720951758348851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535c4676ed63f7c49a0a925f78d0abc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletCollsion: {fileID: 3602720951758348851}
 --- !u!1 &3602720951873096197
 GameObject:
   m_ObjectHideFlags: 0

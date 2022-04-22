@@ -36,12 +36,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         //check for Camera Switch
 
         CameraSwitch(mouseWorldPosition);
-        if (starterAssetsInputs.shoot)
-        {
-            Vector3 aimDir = (mouseWorldPosition - bulletSpawnTransform.position).normalized;
-            Instantiate(projectliePrefabTransform, bulletSpawnTransform.position, Quaternion.LookRotation(aimDir, Vector3.up));
-            starterAssetsInputs.shoot = false;
-        }
+        Shoot(mouseWorldPosition);
     }
 
     private void Shoot(Vector3 mouseWorldPosition)
