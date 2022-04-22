@@ -16,16 +16,25 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform projectliePrefabTransform;
     [SerializeField] private Transform bulletSpawnTransform;
+    [SerializeField] private Transform bulletSpawnRunningTransform;
 
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController tpController;
     private Animator animator;
 
+    [SerializeField] private AudioClip audioSource;
+
+    public GameObject muzzleFlash;
+
+    private bool pistolRunning;
+    private Transform savedSpawnPoint;
     private void Awake()
     {
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         tpController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();
+        savedSpawnPoint = bulletSpawnTransform;
+        pistolRunning = false;
     }
 
     void Update()
@@ -41,12 +50,22 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Shoot(Vector3 mouseWorldPosition)
     {
-        if(starterAssetsInputs.shoot)
+        if(starterAssetsInputs.shoot && starterAssetsInputs.aim)
         {
-            Vector3 aimDir = (mouseWorldPosition - bulletSpawnTransform.position).normalized;
-            Instantiate(projectliePrefabTransform, bulletSpawnTransform.position, Quaternion.LookRotation(aimDir,Vector3.up));
-            
+            muzzleFlash.SetActive(true);
+            StartCoroutine(wait());
+            if(pistolRunning)
+            {
+                Vector3 aimDir = (mouseWorldPosition - bulletSpawnRunningTransform.position).normalized;
+                Instantiate(projectliePrefabTransform, bulletSpawnRunningTransform.position, Quaternion.LookRotation(aimDir, Vector3.up));
+            }
+            else
+            {
+                Vector3 aimDir = (mouseWorldPosition - bulletSpawnTransform.position).normalized;
+                Instantiate(projectliePrefabTransform, bulletSpawnTransform.position, Quaternion.LookRotation(aimDir, Vector3.up));
+            }      
             starterAssetsInputs.shoot = false;
+            AudioSource.PlayClipAtPoint(audioSource, transform.position, 1);
             CameraShake.Instance.ShakeCamera(2.5f, 0.1f);
         }
     }
@@ -77,6 +96,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         if (starterAssetsInputs.aim)
         {
             aimCamera.gameObject.SetActive(true);
+            
             tpController.SetSensitivity(aimSensitivity);
             tpController.SetOnMoveRotate(false);
 
@@ -96,6 +116,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                 
                 animator.SetBool("pistolWalking", true);
                 animator.SetBool("pistolRunning", false);
+                pistolRunning = false;
                 
             }
             else if (mySpeed > 6)
@@ -103,17 +124,21 @@ public class ThirdPersonShooterController : MonoBehaviour
                 Debug.Log("Running");
                 animator.SetBool("pistolWalking", false);
                 animator.SetBool("pistolRunning", true);
+                pistolRunning = true;
+                //bulletSpawnTransform.position.x = 
             }
             else
             {
                 Debug.Log("Aiming but not moving");
                 animator.SetBool("pistolWalking", false);
                 animator.SetBool("pistolRunning", false);
+                pistolRunning = false;
             }
             
         }
         else
         {
+            pistolRunning = false;
             Debug.Log("Not Moving, not aiming");
             animator.SetBool("pistolWalking", false);
             animator.SetBool("pistolRunning", false);
@@ -122,6 +147,12 @@ public class ThirdPersonShooterController : MonoBehaviour
             tpController.SetOnMoveRotate(true);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
+    }
+
+    IEnumerator wait()
+    {
+        yield return new WaitForSeconds(0.1f);
+        muzzleFlash.SetActive(false);
     }
 
 }
