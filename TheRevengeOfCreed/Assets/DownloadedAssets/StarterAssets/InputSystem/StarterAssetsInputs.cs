@@ -15,6 +15,7 @@ namespace StarterAssets
 		public bool sprint;
 		public bool aim;
 		public bool shoot;
+		public bool pause = false;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -57,6 +58,11 @@ namespace StarterAssets
 			ShootInput(value.isPressed);
 		}
 
+		public void OnPause(InputValue value)
+		{
+			PauseInput(value.isPressed);
+		}
+
 
 #endif
 
@@ -90,6 +96,19 @@ namespace StarterAssets
 		{
 			shoot = newShootState;
 		}
+
+		public void PauseInput(bool newPauseState)
+		{
+			if(pause)
+            {
+				pause = false;
+            }
+			else
+            {
+				pause = true;
+            }
+		}
+
 		private void OnApplicationFocus(bool hasFocus)
 		{
 			SetCursorState(cursorLocked);

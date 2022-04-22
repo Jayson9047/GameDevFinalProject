@@ -6,6 +6,9 @@ TagManager:
   tags:
   - CinemachineTarget
   - Enemy
+  - Bullet
+  - enemyBullet
+  - Health
   layers:
   - Default
   - TransparentFX

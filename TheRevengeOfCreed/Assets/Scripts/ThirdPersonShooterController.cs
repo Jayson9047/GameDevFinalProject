@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using StarterAssets;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
 public class ThirdPersonShooterController : MonoBehaviour
@@ -20,6 +21,8 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController tpController;
+    private PauseMenu pauseMenu;
+    private PlayerUI playerUI;
     private Animator animator;
 
     [SerializeField] private AudioClip audioSource;
@@ -28,24 +31,57 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private bool pistolRunning;
     private Transform savedSpawnPoint;
+
     private void Awake()
     {
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         tpController = GetComponent<ThirdPersonController>();
+        playerUI = GetComponent<PlayerUI>();
+        pauseMenu = GetComponent<PauseMenu>();
         animator = GetComponent<Animator>();
-        savedSpawnPoint = bulletSpawnTransform;
+        //savedSpawnPoint = bulletSpawnTransform;
         pistolRunning = false;
     }
 
     void Update()
     {
+        if(playerUI.GetHealth() > 0f )
+        {
+            Vector3 mouseWorldPosition = Vector3.zero;
+            mouseWorldPosition = castRayForShooting();
+            //check for Camera Switch
 
-        Vector3 mouseWorldPosition = Vector3.zero;
-        mouseWorldPosition = castRayForShooting();
-        //check for Camera Switch
+            CameraSwitch(mouseWorldPosition);
+            Shoot(mouseWorldPosition);
+            
+        }
+        else
+        {
+            animator.SetBool("DeathTriggered", true);
+            StartCoroutine(waitForDeath());
+        }
+        Debug.Log(playerUI.GetHealth());
+        CheckPause();
 
-        CameraSwitch(mouseWorldPosition);
-        Shoot(mouseWorldPosition);
+    }
+
+    public void CheckPause()
+    {
+        if (starterAssetsInputs.pause)
+        {
+            pauseMenu.Pause();
+        }
+        else
+        {
+            if (pauseMenu.paused)
+            {
+                pauseMenu.Resume();
+            }
+            else
+            {
+                Debug.Log("UnPaused");
+            }
+        }
     }
 
     private void Shoot(Vector3 mouseWorldPosition)
@@ -151,8 +187,21 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     IEnumerator wait()
     {
+
         yield return new WaitForSeconds(0.1f);
         muzzleFlash.SetActive(false);
+
+    }
+
+    IEnumerator waitForDeath()
+    {
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //Destroy(gameObject);
+/*        aimCamera.Follow = null;
+        aimCamera.LookAt = gameObject;
+*/   
+    
     }
 
 }
