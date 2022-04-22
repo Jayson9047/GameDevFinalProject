@@ -14,6 +14,8 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private LayerMask aimColliderMask;
 
     [SerializeField] private Transform debugTransform;
+    [SerializeField] private Transform projectliePrefabTransform;
+    [SerializeField] private Transform bulletSpawnTransform;
 
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController tpController;
@@ -30,7 +32,24 @@ public class ThirdPersonShooterController : MonoBehaviour
         Vector3 mouseWorldPosition = Vector3.zero;
         mouseWorldPosition = castRayForShooting();
         //check for Camera Switch
+
         CameraSwitch(mouseWorldPosition);
+        if (starterAssetsInputs.shoot)
+        {
+            Vector3 aimDir = (mouseWorldPosition - bulletSpawnTransform.position).normalized;
+            Instantiate(projectliePrefabTransform, bulletSpawnTransform.position, Quaternion.LookRotation(aimDir, Vector3.up));
+            starterAssetsInputs.shoot = false;
+        }
+    }
+
+    private void Shoot(Vector3 mouseWorldPosition)
+    {
+        if(starterAssetsInputs.shoot)
+        {
+            Vector3 aimDir = (mouseWorldPosition - bulletSpawnTransform.position).normalized;
+            Instantiate(projectliePrefabTransform, bulletSpawnTransform.position, Quaternion.LookRotation(aimDir,Vector3.up));
+            starterAssetsInputs.shoot = false;
+        }
     }
 
     private Vector3 castRayForShooting()
